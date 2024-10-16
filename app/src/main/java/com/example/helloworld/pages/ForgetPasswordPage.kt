@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -37,6 +39,7 @@ fun ForgetPasswordPage(
     authViewModel: ViewModel
 ) {
     var email by remember { mutableStateOf("") }
+    val scrollState = rememberScrollState()
     Box(){
         TextButton(
             onClick = {
@@ -49,7 +52,7 @@ fun ForgetPasswordPage(
         }
     }
     Column (
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -62,8 +65,7 @@ fun ForgetPasswordPage(
         )
         Image(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(White),
+                .fillMaxWidth(),
             painter = androidx.compose.ui.res.painterResource(id = R.drawable.forgot_password_bro),
             contentDescription = "Login Background",
             contentScale = ContentScale.Fit

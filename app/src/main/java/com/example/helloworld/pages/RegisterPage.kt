@@ -2,14 +2,17 @@ package com.example.helloworld.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -46,8 +49,13 @@ fun RegisterPage (
     var username by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
 
+    val scrollState = rememberScrollState()
 
-    Column (modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+    Column (
+        modifier = modifier.fillMaxSize().verticalScroll(scrollState),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
         Text(
             text = "Register", fontSize = 32.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally),
@@ -58,8 +66,7 @@ fun RegisterPage (
         Spacer(modifier = Modifier.height(16.dp))
         Image(
             modifier = Modifier
-                .height(300.dp)
-                .background(White),
+                .height(300.dp),
             painter = androidx.compose.ui.res.painterResource(id = R.drawable.welcome_cuate),
             contentDescription = "Login Background",
             contentScale = ContentScale.Fit
