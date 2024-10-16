@@ -1,6 +1,5 @@
 package com.example.helloworld
 
-import ForgetPasswordPage
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModel
@@ -23,9 +22,6 @@ fun AppNavigation(modifier: Modifier = Modifier,authViewModel: ViewModel = AuthV
         }
         composable("home") {
             HomePage(modifier, navController, authViewModel)
-        }
-        composable ("forgetPassword") {
-            ForgetPasswordPage(modifier, navController, authViewModel)
         }
     })
 }
