@@ -3,6 +3,7 @@ package com.example.helloworld.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -103,14 +105,15 @@ fun RegisterPage(
                 phone = it
                 phoneError = when {
                     phone.isEmpty() -> "Phone number is required"
-                    !phonePattern.matcher(phone).matches() -> "Invalid phone number"
+                    !phonePattern.matcher(phone).matches() -> "Phone number must be 8 digits"
                     else -> ""
                 }
                 errorMessage = ""
             },
             label = { Text(text = "Phone Number") },
             isError = phoneError.isNotEmpty(),
-            modifier = Modifier.fillMaxWidth(0.8f)
+            modifier = Modifier.fillMaxWidth(0.8f),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
         )
         if (phoneError.isNotEmpty()) {
             Text(
