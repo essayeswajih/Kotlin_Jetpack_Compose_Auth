@@ -199,12 +199,15 @@ fun RegisterPage(
                 if (password.isEmpty()) passwordError = "Password is required"
                 if (phone.isEmpty()) phoneError = "Phone number is required"
                 if (usernameError.isEmpty() && emailError.isEmpty() && passwordError.isEmpty() && phoneError.isEmpty()) {
-                    //val registerSuccessful = (authViewModel as? AuthViewModel)?.register(username, email, password, phone) ?: false
-                    //if (!registerSuccessful) {
-                    //    errorMessage = "Registration failed, please try again."
-                    //} else {
+                    // Call register method in AuthViewModel
+                    val registerSuccessful = (authViewModel as? AuthViewModel)?.register(username, email, password, phone) ?: false
+                    // Handle registration result
+                    if (registerSuccessful == false) {
+                        errorMessage = "Registration failed, please try again."
+                    } else {
+                        // Navigate to home page on successful registration
                         navController.navigate("home")
-                    //}
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth(0.8f)

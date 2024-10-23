@@ -19,9 +19,11 @@ import com.example.helloworld.AuthViewModel
 fun HomePage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: ViewModel
+    authViewModel: AuthViewModel // Ensure this is the correct type
 ) {
     val scrollState = rememberScrollState()
+    val username = authViewModel.getUsername() // Get the username
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -30,13 +32,13 @@ fun HomePage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Home Page", fontSize = 32.sp)
+        Text(text = "Welcome, $username!", fontSize = 24.sp) // Display the username
 
         TextButton(onClick = {
-            (authViewModel as? AuthViewModel)?.logout()
+            authViewModel.logout()
             navController.navigate("login")
         }) {
             Text(text = "Logout", fontSize = 16.sp)
         }
     }
-
 }
