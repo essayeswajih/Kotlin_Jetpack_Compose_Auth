@@ -33,9 +33,8 @@ fun HomePage(
 
         TextButton(onClick = {
             (authViewModel as? AuthViewModel)?.logout()
-            navController.navigate("login")
         }) {
-            Text(text = "Logout", fontSize = 16.sp)
+            Text(text = "Logout", fontSize = 16.sp) 
         }
     }
 

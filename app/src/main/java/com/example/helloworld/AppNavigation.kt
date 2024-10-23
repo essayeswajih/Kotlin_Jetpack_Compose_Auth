@@ -3,7 +3,7 @@ package com.example.helloworld
 import ForgetPasswordPage
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,9 +12,18 @@ import com.example.helloworld.pages.LoginPage
 import com.example.helloworld.pages.RegisterPage
 
 @Composable
-fun AppNavigation(modifier: Modifier = Modifier,authViewModel: ViewModel = AuthViewModel()) {
+fun AppNavigation(
+    modifier: Modifier = Modifier,
+    authViewModel: AuthViewModel = viewModel()  // Use the correct ViewModel class here
+) {
     val navController = rememberNavController()
-    NavHost(navController = navController, modifier = modifier, startDestination = "login", builder = {
+    val isLoggedIn = authViewModel.isLoggedIn()
+
+    NavHost(
+        navController = navController,
+        startDestination = if (isLoggedIn) "home" else "login",
+        modifier = modifier
+    ) {
         composable("login") {
             LoginPage(modifier, navController, authViewModel)
         }
@@ -24,8 +33,8 @@ fun AppNavigation(modifier: Modifier = Modifier,authViewModel: ViewModel = AuthV
         composable("home") {
             HomePage(modifier, navController, authViewModel)
         }
-        composable ("forgetPassword") {
+        composable("forgetPassword") {
             ForgetPasswordPage(modifier, navController, authViewModel)
         }
-    })
+    }
 }

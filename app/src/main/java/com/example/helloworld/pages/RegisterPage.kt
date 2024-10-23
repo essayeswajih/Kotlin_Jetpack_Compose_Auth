@@ -1,116 +1,221 @@
 package com.example.helloworld.pages
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.example.helloworld.AuthViewModel
 import com.example.helloworld.R
+import java.util.regex.Pattern
 
 @Composable
-fun RegisterPage (
+fun RegisterPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: ViewModel
+    authViewModel: ViewModel // Assuming AuthViewModel has registration logic
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+
+    var emailError by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
+    var usernameError by remember { mutableStateOf("") }
+    var phoneError by remember { mutableStateOf("") }
 
     val scrollState = rememberScrollState()
 
-    Column (
-        modifier = modifier.fillMaxSize().verticalScroll(scrollState),
+    // Email validation pattern
+    val emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")
+    // Phone validation pattern (dummy for now)
+    val phonePattern = Pattern.compile("^\\d{8}$") // Example for a 10-digit phone number
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
+        // Title
         Text(
-            text = "Register", fontSize = 32.sp,
+            text = "Register",
+            fontSize = 32.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             color = Color(126, 87, 194),
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.SansSerif
         )
-        Spacer(modifier = Modifier.height(16.dp))
+
+        // Registration Image
         Image(
-            modifier = Modifier
-                .height(300.dp),
-            painter = androidx.compose.ui.res.painterResource(id = R.drawable.welcome_cuate),
-            contentDescription = "Login Background",
+            modifier = Modifier.fillMaxWidth(),
+            painter = painterResource(id = R.drawable.welcome_cuate),
+            contentDescription = "Register Image",
             contentScale = ContentScale.Fit
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(
-            value = username,
-            onValueChange = {username = it},
-            label = { Text(text = "Username") }
-        )
-        OutlinedTextField(
-            value = phone,
-            onValueChange = { phone = it },
-            label = { Text(text = "Phone Number") },
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
-        )
-        OutlinedTextField(
-            value = email,
-            onValueChange = {email = it},
-            label = { Text(text = "Email") }
-        )
-        OutlinedTextField(
-            value = password,
-            onValueChange = {password = it},
-            label = { Text(text = "Password") },
-            visualTransformation = PasswordVisualTransformation()
-        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Username Input
+        OutlinedTextField(
+            value = username,
+            onValueChange = {
+                username = it
+                usernameError = if (username.isEmpty()) "Username is required" else ""
+                errorMessage = ""
+            },
+            label = { Text(text = "Username") },
+            isError = usernameError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(0.8f)
+        )
+        if (usernameError.isNotEmpty()) {
+            Text(
+                text = usernameError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.align(Alignment.Start).padding(start = 40.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Phone Number Input
+        OutlinedTextField(
+            value = phone,
+            onValueChange = {
+                phone = it
+                phoneError = when {
+                    phone.isEmpty() -> "Phone number is required"
+                    !phonePattern.matcher(phone).matches() -> "Invalid phone number"
+                    else -> ""
+                }
+                errorMessage = ""
+            },
+            label = { Text(text = "Phone Number") },
+            isError = phoneError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(0.8f)
+        )
+        if (phoneError.isNotEmpty()) {
+            Text(
+                text = phoneError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.align(Alignment.Start).padding(start = 40.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Email Input
+        OutlinedTextField(
+            value = email,
+            onValueChange = {
+                email = it
+                emailError = when {
+                    email.isEmpty() -> "Email is required"
+                    !emailPattern.matcher(email).matches() -> "Invalid email address"
+                    else -> ""
+                }
+                errorMessage = ""
+            },
+            label = { Text(text = "Email") },
+            isError = emailError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(0.8f)
+        )
+        if (emailError.isNotEmpty()) {
+            Text(
+                text = emailError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.align(Alignment.Start).padding(start = 40.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Password Input
+        OutlinedTextField(
+            value = password,
+            onValueChange = {
+                password = it
+                passwordError = when {
+                    password.isEmpty() -> "Password is required"
+                    password.length < 8 -> "Password must be at least 8 characters long"
+                    else -> ""
+                }
+                errorMessage = ""
+            },
+            label = { Text(text = "Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            isError = passwordError.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(0.8f)
+        )
+        if (passwordError.isNotEmpty()) {
+            Text(
+                text = passwordError,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.align(Alignment.Start).padding(start = 40.dp)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // General Error Message Display
+        if (errorMessage.isNotEmpty()) {
+            Text(
+                text = errorMessage,
+                color = Color.Red,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+
+        // Register Button
         Button(
             onClick = {
-                // Handle login logic, perhaps using the authViewModel
-            }
+                if (username.isEmpty()) usernameError = "Username is required"
+                if (email.isEmpty()) emailError = "Email is required"
+                if (password.isEmpty()) passwordError = "Password is required"
+                if (phone.isEmpty()) phoneError = "Phone number is required"
+                if (usernameError.isEmpty() && emailError.isEmpty() && passwordError.isEmpty() && phoneError.isEmpty()) {
+                    //val registerSuccessful = (authViewModel as? AuthViewModel)?.register(username, email, password, phone) ?: false
+                    //if (!registerSuccessful) {
+                    //    errorMessage = "Registration failed, please try again."
+                    //} else {
+                        navController.navigate("home")
+                    //}
+                }
+            },
+            modifier = Modifier.fillMaxWidth(0.8f)
         ) {
             Text(text = "Register")
         }
+
         Spacer(modifier = Modifier.height(16.dp))
+
+        // Navigate to Login Button
         TextButton(
-            onClick = {
-                navController.navigate("login")
-            }
+            onClick = { navController.navigate("login") }
         ) {
-            Text(text = "Already have an account!") // Register button navigation()
+            Text(text = "Already have an account!")
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
