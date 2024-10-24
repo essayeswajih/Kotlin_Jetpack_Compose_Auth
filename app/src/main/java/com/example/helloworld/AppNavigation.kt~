@@ -50,7 +50,7 @@ fun AppNavigation(
         ) { backStackEntry ->
             // Retrieve the arguments from the backStackEntry
             val name = backStackEntry.arguments?.getString("name") ?: ""
-            val price = backStackEntry.arguments?.getString("price") ?: "0.0"
+            val price = backStackEntry.arguments?.getDouble("price") ?: 0.0
             val image = backStackEntry.arguments?.getInt("image") ?: 0
             val description = backStackEntry.arguments?.getString("description") ?: ""
 
