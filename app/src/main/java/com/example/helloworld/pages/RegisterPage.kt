@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.helloworld.AuthViewModel
+import com.example.helloworld.FeedReaderDbHelper
 import com.example.helloworld.R
 import java.util.regex.Pattern
 
@@ -28,7 +29,8 @@ import java.util.regex.Pattern
 fun RegisterPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: ViewModel // Assuming AuthViewModel has registration logic
+    authViewModel: ViewModel, // Assuming AuthViewModel has registration logic
+    dbHelper: FeedReaderDbHelper
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

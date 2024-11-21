@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.example.helloworld.FeedReaderDbHelper
 
 @Composable
 fun SingleProductPage(
@@ -24,7 +25,7 @@ fun SingleProductPage(
     description: String,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: ViewModel
+    authViewModel: ViewModel,
 ) {
     Card(
         modifier = Modifier

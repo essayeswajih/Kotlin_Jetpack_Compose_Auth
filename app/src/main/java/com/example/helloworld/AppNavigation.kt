@@ -17,8 +17,9 @@ import com.example.helloworld.pages.SingleProductPage
 @Composable
 fun AppNavigation(
     modifier: Modifier = Modifier,
-    authViewModel: AuthViewModel = viewModel()  // Use the correct ViewModel class here
-) {
+    authViewModel: AuthViewModel = viewModel(),
+    dbHelper: FeedReaderDbHelper// Use the correct ViewModel class here
+    ) {
     val navController = rememberNavController()
     val isLoggedIn = authViewModel.isLoggedIn()
 
@@ -28,16 +29,16 @@ fun AppNavigation(
         modifier = modifier
     ) {
         composable("login") {
-            LoginPage(modifier, navController, authViewModel)
+            LoginPage(modifier, navController, authViewModel, dbHelper)
         }
         composable("register") {
-            RegisterPage(modifier, navController, authViewModel)
+            RegisterPage(modifier, navController, authViewModel, dbHelper)
         }
         composable("home") {
-            HomePage(modifier, navController, authViewModel)
+            HomePage(modifier, navController, authViewModel, dbHelper)
         }
         composable("forgetPassword") {
-            ForgetPasswordPage(modifier, navController, authViewModel)
+            ForgetPasswordPage(modifier, navController, authViewModel, dbHelper)
         }
         composable(
             route = "singleProduct/{name}/{price}/{image}/{description}",

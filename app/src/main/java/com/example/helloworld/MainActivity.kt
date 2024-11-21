@@ -16,13 +16,14 @@ class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels {
         AuthViewModelFactory(getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
     }
+    private val dbHelper = FeedReaderDbHelper(this);
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             HelloWorldTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppNavigation(authViewModel = authViewModel, modifier = Modifier.padding(innerPadding))
+                    AppNavigation(authViewModel = authViewModel, modifier = Modifier.padding(innerPadding), dbHelper = dbHelper)
                 }
             }
         }

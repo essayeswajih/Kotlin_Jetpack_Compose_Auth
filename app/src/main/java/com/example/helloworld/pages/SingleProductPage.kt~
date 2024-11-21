@@ -15,16 +15,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.example.helloworld.FeedReaderDbHelper
 
 @Composable
 fun SingleProductPage(
     name: String,
-    price: Double,
+    price: String,
     image: Int,
     description: String,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: ViewModel
+    authViewModel: ViewModel,
+    dbHelper: FeedReaderDbHelper
 ) {
     Card(
         modifier = Modifier

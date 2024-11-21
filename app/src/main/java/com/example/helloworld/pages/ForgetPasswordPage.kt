@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
+import com.example.helloworld.FeedReaderDbHelper
 import com.example.helloworld.R
 import java.util.regex.Pattern
 
@@ -22,7 +23,8 @@ import java.util.regex.Pattern
 fun ForgetPasswordPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: ViewModel // Assuming you have an AuthViewModel to handle logic
+    authViewModel: ViewModel, // Assuming you have an AuthViewModel to handle logic
+    dbHelper: FeedReaderDbHelper
 ) {
     var email by remember { mutableStateOf("") }
     var emailError by remember { mutableStateOf("") }
