@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -59,10 +58,7 @@ fun HomePage(
             val id = dbHelper.insertData("Jordan Pro Strong", "Description", R.drawable.jordan_pro_strong, 199.99f)
             productList.add(Product(id,"Jordan Pro Strong", "Jordan Pro Strong",199.99f,"Description",R.drawable.jordan_pro_strong))
         }) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Insert Product",
-            )
+            Text(text = "Insert", fontSize = 16.sp)
         }
         TextButton(onClick = {
             authViewModel.logout()

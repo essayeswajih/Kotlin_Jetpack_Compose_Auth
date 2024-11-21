@@ -41,12 +41,13 @@ fun AppNavigation(
             ForgetPasswordPage(modifier, navController, authViewModel, dbHelper)
         }
         composable(
-            route = "singleProduct/{name}/{price}/{image}/{description}",
+            route = "singleProduct/{name}/{price}/{image}/{description}/{id}",
             arguments = listOf(
                 navArgument("name") { type = NavType.StringType },
                 navArgument("price") { type = NavType.StringType },
                 navArgument("image") { type = NavType.IntType },
-                navArgument("description") { type = NavType.StringType }
+                navArgument("description") { type = NavType.StringType },
+                navArgument("id") { type = NavType.LongType },
             )
         ) { backStackEntry ->
             // Retrieve the arguments from the backStackEntry
@@ -54,8 +55,9 @@ fun AppNavigation(
             val price = backStackEntry.arguments?.getString("price") ?: "0.0"
             val image = backStackEntry.arguments?.getInt("image") ?: 0
             val description = backStackEntry.arguments?.getString("description") ?: ""
+            val id = backStackEntry.arguments?.getLong("id") ?: 0
 
-            SingleProductPage(name, price, image, description, modifier, navController, authViewModel)
+            SingleProductPage(name, price, image, description,id, modifier, navController, authViewModel)
         }
     }
 }

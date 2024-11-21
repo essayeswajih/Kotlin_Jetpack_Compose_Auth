@@ -2,7 +2,6 @@ package com.example.helloworld.pages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.example.helloworld.FeedReaderDbHelper
 
 @Composable
 fun SingleProductPage(
@@ -23,6 +21,7 @@ fun SingleProductPage(
     price: String,
     image: Int,
     description: String,
+    id: Any,
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: ViewModel,
