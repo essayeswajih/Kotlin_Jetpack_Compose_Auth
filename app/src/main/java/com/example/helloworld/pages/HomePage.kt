@@ -72,14 +72,15 @@ fun HomePage(
         }
         LazyColumn (modifier = Modifier.fillMaxSize()) {
             items(productList) { product ->
-                ProductCard(product = product, navController = navController, dbHelper = dbHelper)
+                ProductCard(product = product, navController = navController, dbHelper = dbHelper,productList = productList)
             }
         }
     }
 }
 
 @Composable
-fun ProductCard(product: Product,navController: NavHostController,dbHelper: FeedReaderDbHelper) {
+fun ProductCard(product: Product, navController: NavHostController, dbHelper: FeedReaderDbHelper,productList: List<Product>
+                ) {
     Card(
         modifier = Modifier.fillMaxSize().padding(
             horizontal = 16.dp,
@@ -104,6 +105,8 @@ fun ProductCard(product: Product,navController: NavHostController,dbHelper: Feed
                 IconButton(
                     onClick = {
                         dbHelper.deleteData(product.id!!)
+                        //productList.filter { it.id != product.id }
+                        //print(productList.toString())
                         navController.navigate("home")
                     }
 
